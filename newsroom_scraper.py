@@ -1,26 +1,34 @@
 from bs4 import BeautifulSoup
 import requests
+from csv import writer
 
-# There are currently 8 pages in the newsroom
-for i in range(0, 9):
-    url = "https://www.mcgill.ca/newsroom/aggregator/categories/2?page="+str(i)
-    print(url)
-    page = requests.get(url)
 
-    soup = BeautifulSoup(page.content, 'html.parser')
+with open('news_data.csv', 'a', encoding='utf8', newline='') as f:
+    out = writer(f)
+    header = ['Title', 'Content', 'Date']
+    out.writerow(header)
+    # There are currently 8 pages in the newsroom
+    for i in range(0, 9):
+        url = "https://www.mcgill.ca/newsroom/aggregator/categories/2?page=" + \
+            str(i)
+        print(url)
+        page = requests.get(url)
 
-    feed_items = soup.find_all('div', class_='feed-item')
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-    for feed in feed_items:
-        title_item = feed.find('h3', class_='feed-item-title')
-        # Get the title of the news item
-        news_title = title_item.find('a').text
+        feed_items = soup.find_all('div', class_='feed-item')
 
-        # Get the news item content and clean it a bit
-        news_content = feed.find(
-            'div', class_='feed-item-body').text.replace('\n', '')
+        for feed in feed_items:
+            title_item = feed.find('h3', class_='feed-item-title')
+            # Get the title of the news item
+            news_title = title_item.find('a').text
 
-        # Get the news date
-        news_date = feed.find('span', class_='feed-item-date').text
+            # Get the news item content and clean it a bit
+            news_content = feed.find(
+                'div', class_='feed-item-body').text.replace('\n', '')
 
-        print(news_title)
+            # Get the news date
+            news_date = feed.find('span', class_='feed-item-date').text
+
+            info = [news_title, news_content, news_date]
+            out.writerow(info)
