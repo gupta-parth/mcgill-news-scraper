@@ -32,12 +32,21 @@ for item in items:
     # Scraping the metadata by going to the actual news article page
     news_page = requests.get(news_link)
     news_soup = BeautifulSoup(news_page.content, 'html.parser')
+
+    # Metadata tree
     metadata = news_soup.find('div', class_='mcgill-tags')
+
+    # Categories tree
     categories_container = metadata.find('div', class_='categories')
     category_item_list = categories_container.find('ul', class_='links inline')
     all_categories = category_item_list.find_all('a')
+    # Categories stored in an array
     categories = [cat.text for cat in all_categories]
-    print(categories)
+
+    source_site_container = metadata.find(
+        'div', class_='field source-site source-inline')
+    source_site = source_site_container.find('a').text
+    print(source_site)
 
     print()
     print()
