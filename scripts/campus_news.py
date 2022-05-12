@@ -3,9 +3,9 @@ import requests
 from csv import writer
 
 
-with open('news_data.csv', 'a', encoding='utf8', newline='') as f:
+with open('data/campus_news_data.csv', 'a', encoding='utf8', newline='') as f:
     out = writer(f)
-    header = ['Title', 'Content', 'Date']
+    header = ['Title', 'Summary', 'Date']
     out.writerow(header)
     # There are currently 8 pages in the newsroom
     for i in range(0, 9):
@@ -24,11 +24,11 @@ with open('news_data.csv', 'a', encoding='utf8', newline='') as f:
             news_title = title_item.find('a').text
 
             # Get the news item content and clean it a bit
-            news_content = feed.find(
+            news_summary = feed.find(
                 'div', class_='feed-item-body').text.replace('\n', '')
 
             # Get the news date
             news_date = feed.find('span', class_='feed-item-date').text
 
-            info = [news_title, news_content, news_date]
+            info = [news_title, news_summary, news_date]
             out.writerow(info)
