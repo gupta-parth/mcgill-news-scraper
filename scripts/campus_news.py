@@ -3,7 +3,7 @@ import requests
 from csv import writer
 
 
-with open('data/campus_news_data.csv', 'a', encoding='utf8', newline='') as f:
+with open('data/campus_news_data.csv', 'w', encoding='utf8', newline='') as f:
     out = writer(f)
     header = ['Title', 'Summary', 'Date']
     out.writerow(header)
@@ -25,7 +25,7 @@ with open('data/campus_news_data.csv', 'a', encoding='utf8', newline='') as f:
 
             # Get the news item content and clean it a bit
             news_summary = feed.find(
-                'div', class_='feed-item-body').text.replace('\n', '')
+                'div', class_='feed-item-body').text.replace('\n', '').strip()
 
             # Get the news date
             news_date = feed.find('span', class_='feed-item-date').text
