@@ -7,10 +7,10 @@ import re
 with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
     # CSV writer stuff init
     out = writer(f)
-    header = ['Title', 'Date', 'Categories', 'Source Site', 'Tags']
+    header = ['Title', 'Date', 'Content', 'Categories', 'Source Site', 'Tags']
     out.writerow(header)
 
-    for i in range(0, 21):
+    for i in range(0, 218):
         url = 'https://www.mcgill.ca/newsroom/channels_item/19?page=' + str(i)
         page = requests.get(url)
 
@@ -36,20 +36,31 @@ with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
             # Construct the date
             publishing_date = str(day+' ' + month + ' ' + year)
 
-            # Scraping the metadata by going to the actual news article page
+            # Scraping the metadata and actual content by going to the actual news article page
             news_page = requests.get(news_link)
             news_soup = BeautifulSoup(news_page.content, 'html.parser')
 
+            print(i)
+            print(news_title)
+
+            # Scraping the content
+            news_content_obj = news_soup.find(
+                'div', class_='content channels channel-item channel_news')
+            all_content = news_content_obj.get_text().replace('\n', ' ').strip()
+
             # Metadata tree
             metadata = news_soup.find('div', class_='mcgill-tags')
-
             # Categories scraping
-            categories_container = metadata.find('div', class_='categories')
-            category_item_list = categories_container.find(
-                'ul', class_='links inline')
-            all_categories = category_item_list.find_all('a')
-            # Storing the categories in an array
-            categories = [cat.text for cat in all_categories]
+            try:
+                categories_container = metadata.find(
+                    'div', class_='categories')
+                category_item_list = categories_container.find(
+                    'ul', class_='links inline')
+                all_categories = category_item_list.find_all('a')
+                # Storing the categories in an array
+                categories = [cat.text for cat in all_categories]
+            except:
+                categories = []
 
             # Source site scraping
             source_site_container = metadata.find(
@@ -63,5 +74,6 @@ with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
             tags = [tag.text for tag in all_tags]
 
             # Write to the CSV file
-            info = [news_title, publishing_date, categories, source_site, tags]
+            info = [news_title, publishing_date,
+                    all_content, categories, source_site, tags]
             out.writerow(info)

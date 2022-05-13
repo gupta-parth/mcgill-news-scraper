@@ -40,7 +40,7 @@ with open('data/campus_news_data.csv', 'w', encoding='utf8', newline='') as f:
 
             news_content = news_soup.find(
                 'div', class_=re.compile('entry-content|article-content'))
-            all_content = news_content.get_text().replace('\n', '').strip()
+            all_content = news_content.get_text().replace('\n', ' ').strip()
 
             info = [news_title, all_content, news_date]
             out.writerow(info)
