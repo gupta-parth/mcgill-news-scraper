@@ -13,7 +13,6 @@ with open('data/campus_news_data.csv', 'w', encoding='utf8', newline='') as f:
     for i in range(0, 9):
         url = "https://www.mcgill.ca/newsroom/aggregator/categories/2?page=" + \
             str(i)
-        print(url)
         page = requests.get(url)
 
         soup = BeautifulSoup(page.content, 'html.parser')

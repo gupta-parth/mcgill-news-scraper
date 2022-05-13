@@ -1,4 +1,3 @@
-from encodings import utf_8
 from bs4 import BeautifulSoup
 import requests
 from csv import writer
@@ -35,7 +34,6 @@ with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
         # Construct the date
         publishing_date = str(day+' ' + month + ' ' + year)
 
-        print(news_title)
         # Scraping the metadata by going to the actual news article page
         news_page = requests.get(news_link)
         news_soup = BeautifulSoup(news_page.content, 'html.parser')
@@ -61,3 +59,6 @@ with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
             'div', class_='field terms terms-inline')
         all_tags = tags_container.find_all('a')
         tags = [tag.text for tag in all_tags]
+
+        info = [news_title, publishing_date, categories, source_site, tags]
+        out.writerow(info)
