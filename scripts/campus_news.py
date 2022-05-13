@@ -6,7 +6,7 @@ import re
 with open('data/campus_news_data.csv', 'w', encoding='utf8', newline='') as f:
     # CSV writer init
     out = writer(f)
-    header = ['Title', 'Summary', 'Date']
+    header = ['Title', 'Content', 'Date']
     out.writerow(header)
 
     # There are currently 8 pages in the newsroom
