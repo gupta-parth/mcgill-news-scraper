@@ -1,4 +1,3 @@
-from datetime import date
 from bs4 import BeautifulSoup
 import requests
 from csv import writer
@@ -36,17 +35,22 @@ for item in items:
     # Metadata tree
     metadata = news_soup.find('div', class_='mcgill-tags')
 
-    # Categories tree
+    # Categories scraping
     categories_container = metadata.find('div', class_='categories')
     category_item_list = categories_container.find('ul', class_='links inline')
     all_categories = category_item_list.find_all('a')
-    # Categories stored in an array
+    # Storing the categories in an array
     categories = [cat.text for cat in all_categories]
 
+    # Source site scraping
     source_site_container = metadata.find(
         'div', class_='field source-site source-inline')
     source_site = source_site_container.find('a').text
-    print(source_site)
 
+    # Tags scraping
+    tags_container = metadata.find('div', class_='field terms terms-inline')
+    all_tags = tags_container.find_all('a')
+    tags = [tag.text for tag in all_tags]
+    print(tags)
     print()
     print()
