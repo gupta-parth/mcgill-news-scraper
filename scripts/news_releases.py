@@ -18,7 +18,7 @@ with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
 
         # Get all the news items on the page
         items = soup.find_all(
-            'div', class_=re.compile('channel_news'))
+            'div', class_=re.compile('channel_news'))       # Have to use some regex because the class names aren't consistent
 
         for item in items:
 
@@ -62,5 +62,6 @@ with open('data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
             all_tags = tags_container.find_all('a')
             tags = [tag.text for tag in all_tags]
 
+            # Write to the CSV file
             info = [news_title, publishing_date, categories, source_site, tags]
             out.writerow(info)
