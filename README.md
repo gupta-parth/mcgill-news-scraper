@@ -1,4 +1,4 @@
-# McGill Newsroom Scraper
+# University Newsrooms
 
 A collection of python scripts that scrape McGill Newsroom data and store them in a csv format.
 
