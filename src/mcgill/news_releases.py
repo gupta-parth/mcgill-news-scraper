@@ -4,14 +4,14 @@ from csv import writer
 import re
 
 
-with open('data/experts_news_data.csv', 'w', encoding='utf8', newline='') as f:
+with open('../data/news_releases_data.csv', 'w', encoding='utf8', newline='') as f:
     # CSV writer stuff init
     out = writer(f)
     header = ['Title', 'Date', 'Content', 'Categories', 'Source Site', 'Tags']
     out.writerow(header)
 
-    for i in range(0, 42):
-        url = 'https://www.mcgill.ca/newsroom/channels_item/20?page=' + str(i)
+    for i in range(0, 218):
+        url = 'https://www.mcgill.ca/newsroom/channels_item/19?page=' + str(i)
         page = requests.get(url)
 
         soup = BeautifulSoup(page.content, 'html.parser')

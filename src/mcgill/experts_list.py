@@ -3,7 +3,7 @@ import requests
 from csv import writer
 import re
 
-with open('data/experts_list_data.csv', 'w', encoding='utf8', newline='') as f:
+with open('../data/experts_list_data.csv', 'w', encoding='utf8', newline='') as f:
     out = writer(f)
     header = ['Name', 'Title', 'Department']
     out.writerow(header)
